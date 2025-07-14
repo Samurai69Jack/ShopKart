@@ -1,0 +1,30 @@
+{% extends 'app/base.html' %}
+{% block title %}Search Results{% endblock %}
+{% block main-content %}
+<div class="container my-5">
+  <h4>Search Results for "{{ query }}"</h4>
+  <hr>
+  <div class="row">
+    {% if products %}
+      {% for product in products %}
+        <div class="col-md-3 mb-4">
+          <div class="card h-100">
+            <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.title }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.title }}</h5>
+              <p class="card-text">₹{{ product.discounted_price }}</p>
+              <a href="{% url 'product-detail' product.id %}" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No products found matching your search.</p>
+      <br><br>
+      <div><iframe src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMThvdzZoOXVlbnFueXN6ZjY3aDE3aGx3MnhibnE3YW4zeWNldXRtdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9SJazLPHLS8roFZMwZ/giphy.gif" width="200" height="200" frameborder="0" class="giphy-embed" allowfullscreen></iframe></div>
+
+
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

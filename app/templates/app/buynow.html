@@ -1,0 +1,67 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Buy Now{% endblock title %}
+{% block main-content %}
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-sm-6">
+      <h4>Order Summary</h4>
+      <hr>
+      <div class="card mb-2">
+        <div class="card-body">
+          <h5>Product: {{ product.title }}</h5>
+
+          <div class="my-3">
+            <label for="quantity">Quantity: </label>
+            <a class="minus-product btn" pid="{{ product.id }}"><i class="fas fa-minus-square fa-lg"></i></a>
+            <span class="quantity" id="quantityDisplay">{{ quantity }}</span>
+            <a class="plus-product btn" pid="{{ product.id }}"><i class="fas fa-plus-square fa-lg"></i></a>
+          </div>
+          
+
+          <p class="fw-bold">Amount: ₹<span id="amount">{{ amount }}</span></p>
+          <p class="fw-bold">Shipping: ₹<span id="shipping">{{ shipping_amount }}</span></p>
+          <p><strong>Total Cost + Shipping = ₹<span id="totalamount">{{ totalamount }}</span></strong></p>
+        </div>
+      </div>
+
+      <small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
+    </div>
+
+    <div class="col-sm-4 offset-sm-1">
+      <h4>Select Shipping Address</h4>
+      <hr>
+      <form action="" method="POST" id="order-form">
+        {% csrf_token %}
+
+        {% if addresses %}
+          {% for ad in addresses %}
+            <div class="card">
+              <div class="card-body">
+                <h5>{{ ad.name }}</h5>
+                <p>{{ ad.locality }}, {{ ad.city }}, {{ ad.state }} - {{ ad.zipcode }}</p>
+              </div>
+            </div>
+            <div class="form-check mt-2 mb-5">
+              <input class="form-check-input" type="radio" value="{{ ad.id }}" name="custid" id="custadd{{ forloop.counter }}" required>
+              <label class="form-check-label fw-bold" for="custadd{{ forloop.counter }}">
+                Address: {{ forloop.counter }}
+              </label>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-danger">No address found. Please add addresses first through profile section.</p><br>
+          <a class="btn btn-secondary" href="{% url 'profile' %}">Click here to add</a>
+        {% endif %}
+
+        <div class="text-end">
+          <input type="hidden" name="quantity" id="quantityInput" value="{{ quantity }}">
+          <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock main-content %}

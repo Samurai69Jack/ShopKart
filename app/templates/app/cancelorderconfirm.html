@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Cancel Order{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <h3>Cancel Order</h3>
+
+        <div class="col-sm-2 border-end">
+            <ul class="list-unstyled">
+                <li class="d-grid">
+                    <a href="{% url 'orders' %}" class="btn btn-primary">Orders</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-9 offset-sm-1">
+            <h5>Are you sure you want to cancel this order?</h5>
+                <div class="col-sm-2">
+                    <img src="{{order.product.product_image.url}}" alt="" class="img-field" height="200" width="180">
+                </div>
+                <div class="col-sm-7">
+                    <p><strong>Product:</strong> {{order.product.title}}</p>
+                    <p><strong>Quantity:</strong> {{order.quantity}}</p>
+                    <p><strong>Price:</strong> {{order.total_cost}}</p>
+                </div>
+
+
+            <form method="POST">
+                {% csrf_token %}
+                <button class="btn btn-danger mt-2" type="submit">Yes, Cancel Order</button>
+                <a href="{% url 'orders' %}" class="btn btn-secondary mt-2">No, Go Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}
